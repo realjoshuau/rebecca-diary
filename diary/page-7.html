@@ -1,0 +1,202 @@
+<!-- diary.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Rebecca's Private Diary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    body {
+      /* background-image: url('https://i.imgur.com/5fVZwZb.jpg');  aged paper bg */
+      background-color: #fdf6e3;
+
+      background-size: cover;
+      font-family: 'Special Elite', monospace;
+      padding: 50px;
+      line-height: 1.6;
+      color: #2e2b2b;
+      max-width: 800px;
+      margin: auto;
+    }
+    .entry {
+      margin-bottom: 60px;
+      border-bottom: 1px dashed #999;
+      padding-bottom: 20px;
+    }
+    h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    #parchment {
+  position: absolute;
+  display: flex;
+    width: 75%;
+  /* min-height: calc((1vw + 1vh) * 75); */
+  /* center page with absolute position */
+  top: 0%; left: 50%; transform: translate(-50%, 0);
+  margin: 2em 0;
+    padding: 4em;
+    box-shadow: 2px 3px 20px black, 0 0 60px #8a4d0f inset;
+    background: #fffef0;
+  /* filter: url(#wavy2); */
+}
+/* .secret {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-style: italic;
+  color: #990000;
+  margin-left: 10px;
+} */
+
+.secret {
+  position: relative;
+  color: #990000;
+  font-style: italic;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(-5px);
+}
+p {
+  text-transform: lowercase;
+}
+
+p:hover .secret {
+  visibility: visible;
+  opacity: 0.8;
+  transform: translateY(0);
+}
+.tooltip {
+  position: relative;
+  cursor: pointer;
+  border-bottom: 1px dotted black;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 180px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; 
+  left: 50%;
+  margin-left: -90px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); color: inherit; }
+  20% { transform: translate(-1px, 1px); color: red; }
+  40% { transform: translate(1px, -2px); color: #a100ff; }
+  60% { transform: translate(-1px, 2px); color: cyan; }
+  80% { transform: translate(1px, -1px); color: lime; }
+  100% { transform: translate(0); color: inherit; }
+}
+
+.glitchy {
+  animation: glitch 0.3s steps(2, jump-none) infinite;
+}
+
+
+/* p:hover .secret {
+  visibility: visible;
+  opacity: 1;
+} */
+  </style>
+</head>
+<body>
+  <div id="parchment">  
+    <div class="nav-links" style="text-align: center; margin-bottom: 20px;">
+      <a href="#" id="prev-link" style="margin-right: 20px;">←Previous</a>
+      <a href="#" id="next-link">Next→</a>
+    </div>
+    <div class="entry">    
+        <h2>entry 7 — june 19</h2>
+        
+        <br /><br />
+
+        <p>
+          i haven’t slept in days. every time i close my eyes i see her—me—but twisted. bones too long, smile too wide.
+          <br /><br />
+          i opened all the west wing windows. let the salt and rot back in. i want the sea to remember me.
+          <br /><br />
+          i saw ben muttering again. “she’s gonna die,” he whispered. i blew him a kiss.
+          <br /><br />
+          <span class="glitch-text">letters written. names named. secrets scattered.</span>
+          <br /><br />
+          i walked the entire length of manderley barefoot. every floorboard knew me. every shadow bowed.
+          <br /><br />
+          <span style="color:red">soon.</span>
+        </p>
+        
+      </p>
+    </div>
+  </div>
+  <svg>
+    <filter id="wavy2">
+      <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" scale="20" />
+    </filter>
+  </svg>
+  <script>
+    // Navigation logic
+    const currentPage = parseInt(window.location.pathname.split('-').pop().split('.')[0]);
+    const prevLink = document.getElementById('prev-link');
+    const nextLink = document.getElementById('next-link');
+    
+    if (currentPage > 1) {
+      prevLink.href = `page-${currentPage - 1}.html`;
+    } else {
+      prevLink.style.visibility = 'hidden';
+    }
+    
+    nextLink.href = `page-${currentPage + 1}.html`;
+    
+    // Check if next page exists
+    fetch(nextLink.href)
+      .then(response => {
+        if (!response.ok) {
+          nextLink.style.visibility = 'hidden';
+        }
+      })
+      .catch(() => {
+        nextLink.style.visibility = 'hidden';
+      });
+
+    function glitch() {
+      const el = document.getElementById("glitch-text");
+      el.classList.add("glitchy");
+      setTimeout(() => {
+        el.classList.remove("glitchy");
+      }, 300); // match the animation duration
+    }
+
+    setInterval(glitch, 3000);
+
+    // function glitchReplace() {
+    //   const el = document.getElementById("glitch-text");
+    //   const original = el.textContent;
+    //   const alt = "YOU CAN'T BURY ME.";
+
+    //   el.textContent = alt;
+    //   el.classList.add("glitchy");
+
+    //   setTimeout(() => {
+    //     el.textContent = original;
+    //     el.classList.remove("glitchy");
+    //   }, 300);
+    // }
+  </script>
+  <!-- repeat for rest -->
+</body>
+</html>

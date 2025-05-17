@@ -1,0 +1,192 @@
+<!-- diary.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Rebecca's Private Diary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    body {
+      /* background-image: url('https://i.imgur.com/5fVZwZb.jpg');  aged paper bg */
+      background-color: #fdf6e3;
+
+      background-size: cover;
+      font-family: 'Special Elite', monospace;
+      padding: 50px;
+      line-height: 1.6;
+      color: #2e2b2b;
+      max-width: 800px;
+      margin: auto;
+    }
+    .entry {
+      margin-bottom: 60px;
+      border-bottom: 1px dashed #999;
+      padding-bottom: 20px;
+    }
+    h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    #parchment {
+  position: absolute;
+  display: flex;
+    width: 75%;
+  /* min-height: calc((1vw + 1vh) * 75); */
+  /* center page with absolute position */
+  top: 0%; left: 50%; transform: translate(-50%, 0);
+  margin: 2em 0;
+    padding: 4em;
+    box-shadow: 2px 3px 20px black, 0 0 60px #8a4d0f inset;
+    background: #fffef0;
+  /* filter: url(#wavy2); */
+}
+/* .secret {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-style: italic;
+  color: #990000;
+  margin-left: 10px;
+} */
+
+.secret {
+  position: relative;
+  color: #990000;
+  font-style: italic;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(-5px);
+}
+
+p:hover .secret {
+  visibility: visible;
+  opacity: 0.8;
+  transform: translateY(0);
+}
+.tooltip {
+  position: relative;
+  cursor: pointer;
+  border-bottom: 1px dotted black;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 180px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; 
+  left: 50%;
+  margin-left: -90px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); color: inherit; }
+  20% { transform: translate(-1px, 1px); color: red; }
+  40% { transform: translate(1px, -2px); color: #a100ff; }
+  60% { transform: translate(-1px, 2px); color: cyan; }
+  80% { transform: translate(1px, -1px); color: lime; }
+  100% { transform: translate(0); color: inherit; }
+}
+
+.glitchy {
+  animation: glitch 0.3s steps(2, jump-none) infinite;
+}
+
+/* p:hover .secret {
+  visibility: visible;
+  opacity: 1;
+} */
+  </style>
+</head>
+<body>
+  <div id="parchment">  
+    <div class="nav-links" style="text-align: center; margin-bottom: 20px;">
+      <a href="#" id="prev-link" style="margin-right: 20px;">←Previous</a>
+      <a href="#" id="next-link">Next →</a>
+    </div>
+    <div class="entry">
+      <h2>entry 2 - february 12</h2>      
+     <p> <br /><br /><br /><br /><br /><br />
+        mrs. danvers brought me tea in the rose garden this afternoon. she’s always so formal, so rigid — but her eyes? <i>sharp as a hawk’s</i>, watching every move i make like a loyal sentinel with a secret grudge. <span class="tooltip">i asked her about the household accounts, pretending to care about numbers<span class="tooltiptext">really, i wanted to remind her who's really in charge here. she hates that, but loves the game. she craves control even if it’s just over the petty ledgers.</span></span>.
+        
+        <br /><br />
+        
+        the garden was heavy with the scent of roses and something darker — wet earth, decay lurking just beneath the surface. <i>perfect for secrets.</i> <span class="glitch-text">i felt my nerves twitching</span> under the summer sun. it’s strange how peaceful places always make the worst conspiracies feel close.
+        
+        <br /><br />
+        
+        mrs. danvers lowered her voice, as if afraid the petals themselves might overhear. she said, <b>“the servants whisper, miss. there’s talk in the kitchens. about your place here.”</b> <span class="tooltip">i smiled thinly<span class="tooltiptext">let them whisper. let the gossip swirl. it’s all smoke, and smoke blinds.</span></span>
+        but inside i was already planning my next move. <i>the castle’s halls aren’t as safe as they think.</i>
+        
+        <br /><br />
+        
+        later, i wandered through the empty corridors, my footsteps echoing like a pulse in the quiet.
+        i passed maxim’s study and saw his jacket thrown carelessly on a chair. <span class="tooltip">i traced a finger over the fabric<span class="tooltiptext">he’s wearing his secrets like this coat—heavy and close, but ragged at the edges.</span></span>.
+        
+        <br /><br />
+        
+        the afternoon faded, the shadows stretching longer, creeping closer. <i>i know the house is watching me as much as i’m watching it.</i>
+        and soon, everything will change.
+        
+        <br /><br />
+        
+        <span class="secret">sometimes i think this house <i>is</i> alive. and it hates the truth more than anyone.</span> </p>
+    </div>
+  </div>
+  <svg>
+    <filter id="wavy2">
+      <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" scale="20" />
+    </filter>
+  </svg>
+  <script>
+    // Navigation logic
+    const currentPage = parseInt(window.location.pathname.split('-').pop().split('.')[0]);
+    const prevLink = document.getElementById('prev-link');
+    const nextLink = document.getElementById('next-link');
+    
+    if (currentPage > 1) {
+      prevLink.href = `page-${currentPage - 1}.html`;
+    } else {
+      prevLink.style.visibility = 'hidden';
+    }
+    
+    nextLink.href = `page-${currentPage + 1}.html`;
+    
+    // Check if next page exists
+    fetch(nextLink.href)
+      .then(response => {
+        if (!response.ok) {
+          nextLink.style.visibility = 'hidden';
+        }
+      })
+      .catch(() => {
+        nextLink.style.visibility = 'hidden';
+      });
+
+    function glitch() {
+      const el = document.getElementById("glitch-text");
+      el.classList.add("glitchy");
+      setTimeout(() => {
+        el.classList.remove("glitchy");
+      }, 300); // match the animation duration
+    }
+
+    setInterval(glitch, 3000);
+
+  </script>
+  <!-- repeat for rest -->
+</body>
+</html>

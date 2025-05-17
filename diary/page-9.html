@@ -1,0 +1,368 @@
+<!-- diary.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Rebecca's Private Diary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    body {
+      height: 100%;
+      overflow: hidden;
+      background-color: #fdf6e3;
+      background-size: cover;
+      font-family: 'Special Elite', monospace;
+      padding: 50px;
+      line-height: 1.6;
+      color: #2e2b2b;
+      max-width: 800px;
+      margin: auto;
+    }
+    .entry {
+      margin-bottom: 60px;
+      border-bottom: 1px dashed #999;
+      padding-bottom: 20px;
+    }
+    h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    #parchment {
+  position: absolute;
+  display: flex;
+  height: 100%;
+    width: 100%;
+  /* max-height: calc((1vw + 1vh) * 75); */
+  /* center page with absolute position */
+  top: -10%; left: 50%; transform: translate(-50%, 0);
+  margin: 2em 0;
+    padding: 4em;
+    box-shadow: 2px 3px 20px black, 0 0 60px #8a4d0f inset;
+    background: #fffef0;
+    filter: brightness(0.25);
+  /* filter: url(#wavy2); */
+}
+/* .secret {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-style: italic;
+  color: #990000;
+  margin-left: 10px;
+} */
+
+.secret {
+  position: relative;
+  color: #990000;
+  font-style: italic;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(-5px);
+}
+p {
+  text-transform: lowercase;
+}
+
+p:hover .secret {
+  visibility: visible;
+  opacity: 0.8;
+  transform: translateY(0);
+}
+.tooltip {
+  position: relative;
+  cursor: pointer;
+  border-bottom: 1px dotted black;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 180px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; 
+  left: 50%;
+  margin-left: -90px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+#muteButton {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100000;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #2e2b2b;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 24px;
+  color: #2e2b2b;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#muteButton:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 1);
+}
+
+@keyframes glitch_text {
+  0% { transform: translate(0); color: inherit; }
+  20% { transform: translate(-1px, 1px); color: red; }
+  40% { transform: translate(1px, -2px); color: #a100ff; }
+  60% { transform: translate(-1px, 2px); color: cyan; }
+  80% { transform: translate(1px, -1px); color: lime; }
+  100% { transform: translate(0); color: inherit; }
+}
+
+.glitchy {
+  animation: glitch_text 0.25s steps(2, jump-none) infinite;
+}
+
+
+/* p:hover .secret {
+  visibility: visible;
+  opacity: 1;
+} */
+  </style>
+
+<style>
+  .glitch-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    background: inherit;
+    mix-blend-mode: difference;
+    opacity: 0;
+  }
+
+  .glitch-anim {
+    animation: glitchEffect 0.8s ease-out;
+  }
+
+  @keyframes glitchEffect {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) skew(0deg, 0deg);
+      filter: hue-rotate(0deg) contrast(100%);
+    }
+    25% {
+      transform: translate(-10px, -5px) skew(5deg, -3deg);
+      filter: hue-rotate(90deg) contrast(130%);
+    }
+    50% {
+      transform: translate(10px, 5px) skew(-5deg, 3deg);
+      filter: hue-rotate(-90deg) contrast(70%);
+    }
+    75% {
+      transform: translate(-5px, 10px) skew(3deg, 2deg);
+      filter: hue-rotate(180deg) contrast(200%);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(0, 0) skew(0deg, 0deg);
+      filter: hue-rotate(0deg) contrast(100%);
+    }
+  }
+</style>
+</head>
+<body>
+  <button id="muteButton" title="Toggle Sound">🔊</button>
+  <div id="parchment">  
+    <div class="nav-links" style="text-align: center; margin-bottom: 20px;">
+      <a href="#" id="prev-link" style="margin-right: 20px;">←</a>
+      <a href="#" id="next-link">→</a>
+    </div>
+   
+    <div class="entry">    
+        <h2>entry 6 — october 11</h2>
+        <i> Hint: press CTRL+A to view all hidden text.</i>
+        <p style="filter: brightness(1);">
+           I finally got the courage to tell him.
+           <br /><br />
+           the sea seems to be calling me.
+           <br /><br />
+           it's nice this time of year.
+           <span style="color: white !important" id="repeating-text">I'm free. <br /> I'm free. <br /> I'm free.</span>
+           
+        </p>
+    </div>
+  </div>
+  <script>
+    // Navigation logic
+    const currentPage = parseInt(window.location.pathname.split('-').pop().split('.')[0]);
+    const prevLink = document.getElementById('prev-link');
+    const nextLink = document.getElementById('next-link');
+    
+    if (currentPage > 1) {
+      prevLink.href = `page-${currentPage - 1}.html`;
+    } else {
+      prevLink.style.visibility = 'hidden';
+    }
+    
+    nextLink.href = `page-${currentPage + 1}.html`;
+    
+    // Check if next page exists
+    fetch(nextLink.href)
+      .then(response => {
+        if (!response.ok) {
+          nextLink.style.visibility = 'hidden';
+        }
+      })
+      .catch(() => {
+        nextLink.style.visibility = 'hidden';
+      });
+
+    function glitch() {
+      const el = document.getElementById("glitch-text");
+      el.classList.add("glitchy");
+      setTimeout(() => {
+        el.classList.remove("glitchy");
+      }, 300); // match the animation duration
+    }
+
+    setInterval(glitch, 3000);
+
+    // function glitchReplace() {
+    //   const el = document.getElementById("glitch-text");
+    //   const original = el.textContent;
+    //   const alt = "YOU CAN'T BURY ME.";
+
+    //   el.textContent = alt;
+    //   el.classList.add("glitchy");
+
+    //   setTimeout(() => {
+    //     el.textContent = original;
+    //     el.classList.remove("glitchy");
+    //   }, 300);
+    // }
+
+    function repeatText() {
+      const el = document.getElementById("repeating-text");
+      el.innerHTML = "I'm free. <br /> I'm free. <br /> I'm free.";
+      x = setInterval(() => {
+        el.innerHTML += "I'm free. ";
+      }, 300);
+      y = setInterval(() => {
+        el.innerHTML += "<br /> ";
+      }, 5000);
+      setTimeout(() => {
+        clearInterval(x);
+        clearInterval(y);
+      }, 20000);
+    }
+    repeatText();
+  </script>
+
+<script>
+  const createGlitchLayer = () => {
+    const layer = document.createElement("div");
+    layer.classList.add("glitch-layer");
+    document.body.appendChild(layer);
+    return layer;
+  };
+
+  const triggerGlitch = () => {
+    const layer = createGlitchLayer();
+    layer.classList.add("glitch-anim");
+
+    // remove after animation completes
+    setTimeout(() => {
+      layer.remove();
+    }, 1000); // match duration
+  };
+
+  const scheduleGlitch = () => {
+    const delay = Math.random() * 3000 + 4000; // 4–7s
+    setTimeout(() => {
+      triggerGlitch();
+      scheduleGlitch();
+    }, delay);
+  };
+
+  scheduleGlitch();
+</script>
+<script>
+  let audioCtx, noiseSource, filter, lfo, lfoGain;
+  let playing = false;
+
+  function createSeaNoise() {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const bufferSize = 2 * audioCtx.sampleRate;
+    const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const output = noiseBuffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      output[i] = Math.random() * 2 - 1;
+    }
+
+    noiseSource = audioCtx.createBufferSource();
+    noiseSource.buffer = noiseBuffer;
+    noiseSource.loop = true;
+
+    filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(1000, audioCtx.currentTime);
+    filter.Q.setValueAtTime(0.5, audioCtx.currentTime);
+
+    lfo = audioCtx.createOscillator();
+    lfoGain = audioCtx.createGain();
+    lfo.frequency.setValueAtTime(0.2, audioCtx.currentTime);
+    lfoGain.gain.setValueAtTime(500, audioCtx.currentTime);
+
+    lfo.connect(lfoGain);
+    lfoGain.connect(filter.frequency);
+    lfo.start();
+
+    noiseSource.connect(filter);
+    filter.connect(audioCtx.destination);
+    noiseSource.start();
+
+    /* change the volume of the noise */
+    filter.gain.setValueAtTime(0.1, audioCtx.currentTime);
+  }
+
+  function toggleNoise() {
+    const muteButton = document.getElementById('muteButton');
+    if (!playing) {
+      createSeaNoise();
+      playing = true;
+      muteButton.textContent = '🔊';
+    } else {
+      noiseSource.stop();
+      lfo.stop();
+      audioCtx.close();
+      playing = false;
+      muteButton.textContent = '🔇';
+    }
+  }
+
+  // Initialize button state
+  document.getElementById('muteButton').textContent = '🔇';
+  document.body.addEventListener('click', toggleNoise);
+</script>
+
+  <!-- repeat for rest -->
+</body>
+</html>

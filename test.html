@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Realistic Sticky Note</title>
+  <style>
+    body {
+      background: #eee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .sticky-note {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      background: linear-gradient(135deg, #fcf3a1, #fffbc2);
+      border-radius: 10px;
+      box-shadow:
+        0 10px 15px rgba(0,0,0,0.2),
+        inset 0 0 3px rgba(0,0,0,0.1);
+      padding: 20px;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .sticky-note::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-top: 60px solid #fffbc2;
+      border-left: 60px solid transparent;
+      box-shadow: -2px 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .sticky-note-text {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="sticky-note">
+    <div class="sticky-note-text">
+      📝 buy duct tape<br>
+      📦 return the thing<br>
+      🤖 world domination meeting @ 3
+    </div>
+  </div>
+</body>
+</html>

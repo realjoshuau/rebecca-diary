@@ -1,0 +1,24 @@
+<svg width="100%" height="100%" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="roughEdges">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <radialGradient id="paperGradient" cx="50%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#fdf6e3"/>
+      <stop offset="100%" stop-color="#e2d3a3"/>
+    </radialGradient>
+  </defs>
+
+  <!-- background with gradient -->
+  <rect width="800" height="600" fill="url(#paperGradient)" filter="url(#roughEdges)" />
+
+  <!-- speckles -->
+  <g opacity="0.1">
+    <circle cx="200" cy="150" r="2" fill="#5c3d1e"/>
+    <circle cx="600" cy="100" r="1.5" fill="#5c3d1e"/>
+    <circle cx="400" cy="300" r="1" fill="#5c3d1e"/>
+    <circle cx="250" cy="500" r="2.2" fill="#5c3d1e"/>
+    <circle cx="700" cy="450" r="1.3" fill="#5c3d1e"/>
+  </g>
+</svg>
