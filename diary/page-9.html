@@ -1,10 +1,10 @@
-<!-- diary.html -->
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>Rebecca's Private Diary</title>
   <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       height: 100%;
@@ -84,7 +84,7 @@ p:hover .secret {
   padding: 5px;
   position: absolute;
   z-index: 1;
-  bottom: 125%; 
+  bottom: 125%;
   left: 50%;
   margin-left: -90px;
   opacity: 0;
@@ -189,23 +189,30 @@ p:hover .secret {
 </head>
 <body>
   <button id="muteButton" title="Toggle Sound">🔊</button>
-  <div id="parchment">  
+  <div id="parchment">
     <div class="nav-links" style="text-align: center; margin-bottom: 20px;">
       <a href="#" id="prev-link" style="margin-right: 20px;">←</a>
       <a href="#" id="next-link">→</a>
     </div>
-   
-    <div class="entry">    
+
+    <div class="entry">
         <h2>entry 6 — october 11</h2>
-        <i> Hint: press CTRL+A to view all hidden text.</i>
+        <i style="font-family: Inter;">Hint: press CTRL+A (Command + A on macOS systems) to view all hidden text.</i>
+       <div id="motion-warning-while-enabled">
+        <a style="font-family: Inter; color: blue" href="?disablemotion">If the screen shaking is too much, click here to disable it OR enable reduced motion in your browser settings or device settings.</a>
+        <i style="font-family: Inter; color: blue">Disabling motion will also mute the sea noise & the brightness dim.</i>
+       </div>
+       <div id="motion-warning-while-disabled" style="display: none;">
+        <a style="font-family: Inter; color: blue" href="?enablemotion">Enable motion</a>
+       </div>
         <p style="filter: brightness(1);">
            I finally got the courage to tell him.
            <br /><br />
            the sea seems to be calling me.
            <br /><br />
            it's nice this time of year.
-           <span style="color: white !important" id="repeating-text">I'm free. <br /> I'm free. <br /> I'm free.</span>
-           
+           <span style="opacity: 0.25; !important" id="repeating-text">I'm free. <br /> I'm free. <br /> I'm free.</span>
+
         </p>
     </div>
   </div>
@@ -214,15 +221,15 @@ p:hover .secret {
     const currentPage = parseInt(window.location.pathname.split('-').pop().split('.')[0]);
     const prevLink = document.getElementById('prev-link');
     const nextLink = document.getElementById('next-link');
-    
+
     if (currentPage > 1) {
-      prevLink.href = `page-${currentPage - 1}.html`;
+      prevLink.href = `page-${currentPage - 1}.html`; // Use backticks for template literals
     } else {
       prevLink.style.visibility = 'hidden';
     }
-    
-    nextLink.href = `page-${currentPage + 1}.html`;
-    
+
+    nextLink.href = `page-${currentPage + 1}.html`; // Use backticks for template literals
+
     // Check if next page exists
     fetch(nextLink.href)
       .then(response => {
@@ -235,42 +242,33 @@ p:hover .secret {
       });
 
     function glitch() {
-      const el = document.getElementById("glitch-text");
-      el.classList.add("glitchy");
-      setTimeout(() => {
-        el.classList.remove("glitchy");
-      }, 300); // match the animation duration
+      const el = document.getElementById("glitch-text"); // Note: There is no element with id "glitch-text" in the provided HTML
+      if (el) { // Add a check if the element exists
+        el.classList.add("glitchy");
+        setTimeout(() => {
+          el.classList.remove("glitchy");
+        }, 300); // match the animation duration
+      }
     }
 
-    setInterval(glitch, 3000);
-
-    // function glitchReplace() {
-    //   const el = document.getElementById("glitch-text");
-    //   const original = el.textContent;
-    //   const alt = "YOU CAN'T BURY ME.";
-
-    //   el.textContent = alt;
-    //   el.classList.add("glitchy");
-
-    //   setTimeout(() => {
-    //     el.textContent = original;
-    //     el.classList.remove("glitchy");
-    //   }, 300);
-    // }
+    // This interval is for the text glitch effect, which doesn't seem to be applied to any element
+    // setInterval(glitch, 3000); // Keeping this commented out as it's not linked to an element
 
     function repeatText() {
       const el = document.getElementById("repeating-text");
-      el.innerHTML = "I'm free. <br /> I'm free. <br /> I'm free.";
-      x = setInterval(() => {
-        el.innerHTML += "I'm free. ";
-      }, 300);
-      y = setInterval(() => {
-        el.innerHTML += "<br /> ";
-      }, 5000);
-      setTimeout(() => {
-        clearInterval(x);
-        clearInterval(y);
-      }, 20000);
+      if (el) { // Add a check if the element exists
+        el.innerHTML = "I'm free. <br /> I'm free. <br /> I'm free.";
+        x = setInterval(() => {
+          el.innerHTML += "I'm free. ";
+        }, 300);
+        y = setInterval(() => {
+          el.innerHTML += "<br /> ";
+        }, 5000);
+        setTimeout(() => {
+          clearInterval(x);
+          clearInterval(y);
+        }, 20000);
+      }
     }
     repeatText();
   </script>
@@ -290,18 +288,22 @@ p:hover .secret {
     // remove after animation completes
     setTimeout(() => {
       layer.remove();
-    }, 1000); // match duration
+    }, 1000); // match duration (0.8s animation + buffer)
   };
 
   const scheduleGlitch = () => {
-    const delay = Math.random() * 3000 + 4000; // 4–7s
+    // Reduced delay range for more constant shaking
+    const delay = Math.random() * 2000 + 1000; // Random delay between 1 and 3 seconds
     setTimeout(() => {
       triggerGlitch();
-      scheduleGlitch();
+      scheduleGlitch(); // Schedule the next glitch
     }, delay);
   };
 
-  scheduleGlitch();
+  const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!isReduced && !window.location.search.includes('disablemotion')) {
+    scheduleGlitch(); // Start the first glitch schedule
+  }
 </script>
 <script>
   let audioCtx, noiseSource, filter, lfo, lfoGain;
@@ -345,24 +347,84 @@ p:hover .secret {
 
   function toggleNoise() {
     const muteButton = document.getElementById('muteButton');
-    if (!playing) {
+    // Check if audioCtx is not null and its state is 'suspended' before resuming/creating
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().then(() => {
+         console.log('AudioContext resumed successfully');
+         // Now that it's resumed, you can toggle playback state
+         if (!playing) {
+             // Assuming createSeaNoise sets up and starts noiseSource, lfo etc.
+             // If they were stopped, you might need to re-create or re-start them here.
+             // For simplicity, if state was suspended and now running, assume noise continues if it was playing.
+             // Or if starting fresh:
+             // createSeaNoise(); // Or start existing sources
+              if (!noiseSource || noiseSource.playbackState === noiseSource.UNSCHEDULED) {
+                   createSeaNoise(); // Recreate if needed
+              } else if (noiseSource.playbackState === noiseSource.PAUSED) {
+                 noiseSource.start(); // Resume if paused (might not be the case with current stop logic)
+              }
+              playing = true;
+              muteButton.textContent = '🔊';
+         } else {
+             // This part might be tricky. If audioCtx was suspended, stopping sources might not work as expected until resumed.
+             // If it was already playing and not suspended, stop normally.
+             noiseSource.stop();
+             lfo.stop();
+             // Do not close audioCtx if you might resume later, but the original code did.
+             // For this logic, let's stick to the original close behavior if toggling off.
+              if (audioCtx) {
+                audioCtx.close().then(() => console.log('AudioContext closed successfully'));
+              }
+             playing = false;
+             muteButton.textContent = '🔇';
+         }
+      });
+    } else if (playing) {
+      // If already playing and not suspended, stop the noise
+      noiseSource.stop();
+      lfo.stop();
+       if (audioCtx) {
+         audioCtx.close().then(() => console.log('AudioContext closed successfully'));
+       }
+      playing = false;
+      muteButton.textContent = '🔇';
+    } else {
+      // If not playing and not suspended, create and start the noise
       createSeaNoise();
       playing = true;
       muteButton.textContent = '🔊';
-    } else {
-      noiseSource.stop();
-      lfo.stop();
-      audioCtx.close();
-      playing = false;
-      muteButton.textContent = '🔇';
     }
   }
 
+
   // Initialize button state
   document.getElementById('muteButton').textContent = '🔇';
-  document.body.addEventListener('click', toggleNoise);
+  // Use 'click' for user interaction to bypass browser autoplay restrictions
+  document.getElementById('muteButton').addEventListener('click', toggleNoise);
+
+  // Optional: Auto-play on first user interaction with the page body
+  let hasInteracted = false;
+  document.body.addEventListener('click', () => {
+    if (!hasInteracted && !window.location.search.includes('disablemotion')) {
+      toggleNoise(); // This will create and start the noise on the very first click
+      hasInteracted = true;
+    }
+  }, { once: true }); // Listen only once for the first interaction
+
+ // check if the url has ?disablemotion
+ if (window.location.search.includes('disablemotion')) {
+  document.getElementById('motion-warning-while-enabled').style.display = 'none';
+  document.getElementById('motion-warning-while-disabled').style.display = 'block';
+  document.getElementById('parchment').style.filter = 'brightness(1)';
+  const el = document.getElementById("repeating-text");
+  el.style.color = "black";
+ }
+ if (window.location.search.includes('enablemotion')) {
+  document.getElementById('motion-warning-while-enabled').style.display = 'block';
+  document.getElementById('motion-warning-while-disabled').style.display = 'none';
+ }
+
 </script>
 
-  <!-- repeat for rest -->
-</body>
+  </body>
 </html>
